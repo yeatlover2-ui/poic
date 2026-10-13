@@ -931,6 +931,8 @@ var GS = globalThis.GS = globalThis.GS || {};
     if (unrest < 0.5 || (prot < 0.04 && c01(c.radicalShare) < 0.2)) return false;
     // new rulers get a honeymoon: no revolution within a year of taking power
     if (yearsSince(W, c.regimeSince) < 1 || (c.leader && yearsSince(W, c.leader.since) < 1)) return false;
+    // revolutionary exhaustion: a society that just overthrew its rulers rarely mobilises again for years
+    if (c.lastRevolution != null && yearsSince(W, c.lastRevolution) < 3) return false;
     var sc = stateCapacity(c);
     var capacity = 0.15 + info.repressionCap * c01(c.repression) * 0.8 + milA * 0.3 + c01(c.legitimacy, 0.5) * 0.35 + (info.elections ? c01(c.freedom) * 0.3 : 0) +
       sc * 0.3;
@@ -968,9 +970,27 @@ var GS = globalThis.GS = globalThis.GS || {};
     } else changeGov(W, c, gov, 'revolution', { ideology: ideo, silent: true });
     if (c.civilWar) { c.civilWar = null; }
     c.unrest = c01(c.unrest * 0.6);
+    c.lastRevolution = W.tick | 0;
     post(W, 'Revolution in ' + c.name + ': ' + (old && !old.none ? old.name + ' is toppled by mass protests. ' : 'Mass protests sweep away the old order. ') +
       c.leader.name + ' proclaims a new ' + gi(c.gov).label.toLowerCase() + '.', c, 4, 'revolution');
     logSome(W, c.id, 5, function (P, i) { return (P.flags[i] & F_PROTEST) !== 0; }, 'took to the streets in the revolution that toppled ' + (old && !old.none ? old.name : 'the old regime'));
+    calmVictors(W, c.id);
+  }
+
+  // The protesters won: they go home, de-radicalised and hopeful about the regime they installed.
+  function calmVictors(W, cid) {
+    var P = W.people;
+    if (!P || !P.alive) return;
+    var S = st(W), n = P.n | 0;
+    for (var i = 0; i < n; i++) {
+      if (!P.alive[i]) continue;
+      var r = P.region[i];
+      if (r < 0 || r >= S.nR || S.rOwner[r] !== cid) continue;
+      if ((P.flags[i] & F_PROTEST) === 0) continue;
+      P.flags[i] &= ~F_PROTEST;
+      P.radical[i] *= 0.4;
+      if (P.approval[i] < 0.65) P.approval[i] = 0.65;
+    }
   }
 
   function logSome(W, cid, max, test, text) {

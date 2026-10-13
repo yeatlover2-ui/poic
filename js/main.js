@@ -8,7 +8,7 @@
 
   // ticks per second for speeds 1..4; speed 5 = as many ticks as fit in the frame budget
   var RATES = [0, 4, 10, 25, 60];
-  var MAX_BUDGET_MS = 25, FAST_BUDGET_MS = 22; // 'as fast as possible' still leaves the frame time to the map and UI
+  var MAX_BUDGET_MS = 25, FAST_BUDGET_MS = 36; // 'as fast as possible' still leaves the frame time to the map and UI
 
   var S = {
     W: null, paused: false, speed: 1, acc: 0, lastFrame: 0, lastPanel: 0, raf: 0,
