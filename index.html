@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GODSIM — the world, simulated</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand" title="GODSIM"><span class="brand-orb"></span><span class="brand-name">GOD<b>SIM</b></span></div>
+    <div class="timectl">
+      <div class="datebox"><div id="date" class="date">—</div><div id="week" class="week">week 0</div></div>
+      <button id="btnPlay" class="playbtn" title="Play / pause (Space)" aria-label="Play or pause">&#10074;&#10074;</button>
+      <div id="speeds" class="seg speeds" title="Speed (keys 1–5)">
+        <button data-speed="1">1</button><button data-speed="2">2</button><button data-speed="3">3</button><button data-speed="4">4</button><button data-speed="5">5</button>
+      </div>
+    </div>
+    <div id="stats" class="stats"></div>
+    <div class="topright">
+      <span id="perf" class="perf" title="Average simulation cost per weekly tick"></span>
+      <button id="btnRestart" class="btn ghost" title="Restart with a new random seed">&#8635; New world</button>
+    </div>
+  </header>
+
+  <aside id="left" class="panel side left">
+    <div class="panel-head">
+      <span class="ph-title">Divine powers</span>
+      <button class="collapse" data-collapse="left" title="Collapse panel">&#8249;</button>
+    </div>
+    <div class="scroll">
+      <div class="section-title first">Scenarios</div>
+      <div id="scenarios" class="scenarios"></div>
+      <div id="powerHelp" class="power-help">Choose a power, then click the map. <kbd>Esc</kbd> cancels. Hold <kbd>Shift</kbd> to keep a power armed.</div>
+      <div id="powers" class="powers"></div>
+    </div>
+  </aside>
+
+  <main id="mapwrap">
+    <canvas id="map" aria-label="World map"></canvas>
+    <div id="mapbar" class="maptool">
+      <div id="modes" class="seg modes"></div>
+      <div id="overlays" class="seg overlays"></div>
+    </div>
+    <div id="legend" class="legend glass"></div>
+    <div id="zoomctl" class="zoomctl glass">
+      <button data-zoom="in" title="Zoom in">+</button><button data-zoom="out" title="Zoom out">&minus;</button><button data-zoom="reset" title="Whole world">&#9675;</button>
+    </div>
+    <div id="instruction" class="instruction" hidden></div>
+    <div id="tooltip" class="tooltip" hidden></div>
+    <button id="reopenRight" class="reopen right" data-collapse="right" title="Show inspector">&#8249;</button>
+  </main>
+
+  <aside id="right" class="panel side right">
+    <div class="panel-head">
+      <span class="ph-title" id="inspTitle">World overview</span>
+      <span class="ph-actions">
+        <button id="btnDeselect" class="mini" title="Back to world overview" hidden>&#10005;</button>
+        <button class="collapse" data-collapse="right" title="Collapse panel">&#8250;</button>
+      </span>
+    </div>
+    <div class="scroll" id="rightScroll">
+      <div id="inspector"></div>
+      <div id="citizen" class="card citizen"></div>
+    </div>
+  </aside>
+
+  <footer id="bottom" class="panel bottom">
+    <div class="news">
+      <div class="panel-head">
+        <span class="ph-title">World news</span>
+        <div id="newsFilters" class="chips"></div>
+        <button class="collapse" data-collapse="bottom" title="Collapse panel">&#8964;</button>
+      </div>
+      <div id="newsList" class="newslist"></div>
+    </div>
+    <div id="charts" class="charts"></div>
+  </footer>
+</div>
+
+<div id="loading" class="loading">
+  <div class="loading-inner">
+    <div class="loading-orb"></div>
+    <div class="loading-title">GOD<b>SIM</b></div>
+    <div id="loadingMsg" class="loading-msg">Creating the world…</div>
+    <div class="loading-sub">8 billion lives · every nation · nothing scripted</div>
+  </div>
+</div>
+<div id="toasts" class="toasts"></div>
+
+<script src="data/world-topo.js"></script>
+<script src="js/core.js"></script>
+<script src="js/data.js"></script>
+<script src="js/people.js"></script>
+<script src="js/economy.js"></script>
+<script src="js/politics.js"></script>
+<script src="js/diplomacy.js"></script>
+<script src="js/war.js"></script>
+<script src="js/world.js"></script>
+<script src="js/map.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
