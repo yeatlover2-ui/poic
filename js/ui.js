@@ -456,7 +456,7 @@
   function setText(id, v) { var el = $(id); if (el && el.textContent !== v) el.textContent = v; }
   function renderTop(W) {
     var G = W.global || {}, t = num(W.tick, 0);
-    setText('date', dateFull(t));
+    setText('date', dateFull(t + M.max(0, M.min(0.999, num(W.subTick, 0)))));
     setText('week', 'week ' + t + ' · year ' + (M.floor(t / 52) + 1));
     var cs = W.countries || [], alive = 0, pop = 0, gdp = 0, i;
     for (i = 0; i < cs.length; i++) { var c = cs[i]; if (c && c.alive) { alive++; pop += num(c.pop, 0); gdp += num(c.gdp, 0); } }

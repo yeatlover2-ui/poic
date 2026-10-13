@@ -6,8 +6,9 @@
   var GS = globalThis.GS = globalThis.GS || {};
   var M = Math;
 
-  // ticks per second for speeds 1..4; speed 5 = as many ticks as fit in the frame budget
-  var RATES = [0, 4, 10, 25, 60];
+  // weeks (ticks) per second for speeds 1..4; speed 5 = as many ticks as fit in the frame budget
+  //   1: a day every ~0.3 s (a year ≈ 2 min)   2: a year ≈ 35 s   3: a year ≈ 13 s   4: a year ≈ 4 s
+  var RATES = [0, 0.5, 1.5, 4, 12];
   var MAX_BUDGET_MS = 25, FAST_BUDGET_MS = 36; // 'as fast as possible' still leaves the frame time to the map and UI
 
   var S = {
@@ -96,6 +97,8 @@
         }
       }
     }
+    // fraction of the current week already elapsed, so the calendar advances day by day between ticks
+    if (W) W.subTick = (!S.paused && S.speed < 5) ? M.max(0, M.min(0.999, S.acc)) : 0;
     if (W) {
       try { if (GS.MapView) GS.MapView.render(W, t); } catch (e) { reportOnce('map', e); }
       if (t - S.lastPanel > 250) {
@@ -104,7 +107,7 @@
       }
       if (t - S.tpsT > 1000) {
         S.tps = S.tpsCount * 1000 / (t - S.tpsT || 1000); S.tpsCount = 0; S.tpsT = t;
-        ui('setPerf')(S.tickMs.toFixed(1) + ' ms/tick · ' + S.tps.toFixed(0) + ' wk/s');
+        ui('setPerf')(S.tickMs.toFixed(1) + ' ms/tick · ' + S.tps.toFixed(S.tps < 10 ? 1 : 0) + ' wk/s');
       }
     }
   }

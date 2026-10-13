@@ -14,7 +14,7 @@ Plain JavaScript. No build step, no libraries, no network.
 Open `index.html` in a modern browser. Opening it straight from disk (`file://`) works.
 
 - `index.html#seed=42` starts a reproducible world from seed 42. Without a seed, a random one is used.
-- **Space** pauses and resumes. Keys **1–5** set the speed (4, 10, 25 and 60 weeks/s, then "as fast as possible").
+- **Space** pauses and resumes. Keys **1–5** set the speed (speed 1 ≈ a day every 0.3 s, i.e. about 2 minutes per game year; then about 35 s, 13 s and 4 s per year; 5 is "as fast as possible").
 - Drag to pan, scroll to zoom, click a country to inspect it. **Esc** cancels an armed power or clears the selection.
 
 ### The screen
